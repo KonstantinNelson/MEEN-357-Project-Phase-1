@@ -1,6 +1,6 @@
 import numpy as np
 from subfunctions import *
-from Lab3_DefineRover import *
+from define_rover import *
 from scipy.optimize import root_scalar
 import matplotlib.pyplot as plt
 
