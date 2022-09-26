@@ -71,9 +71,7 @@ def F_gravity(terrain_angle,rover,planet):      #define function F_gravity that 
     else: raise Exception('The first argument is neither a scalar nor a vector.')
     return Fgt
 
-
-#assuming this works since f_net works
-def F_rolling(omega,terrain_angle,rover,planet,Crr):
+def F_rolling(omega,terrain_angle,rover,planet,Crr):    #define function F_rolling that receives scalar or array omega and terrain_angle, rover and planet dict, and scalar Crr
     Frr=0
     Fn=0
     if np.isscalar(omega) or isinstance(omega,np.ndarray):
@@ -105,8 +103,6 @@ def F_rolling(omega,terrain_angle,rover,planet,Crr):
     else: Frr = erf(40*v_rover)*Frrs  
     return Frr
 
-
-#this works with the test file
 def F_net(omega, terrain_angle, rover, planet, Crr):
     F=0
     if not isinstance(rover,dict):
