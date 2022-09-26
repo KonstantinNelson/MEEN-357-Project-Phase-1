@@ -111,9 +111,13 @@ def F_net(omega, terrain_angle, rover, planet, Crr):    #define function F_net t
         raise Exception('The fifth argument is not a scalar.')
     elif Crr <= 0:     #check if Crr is negative
         raise Exception('The fifth argument is not postive.') 
-    if np.isscalar(omega) or isinstance(omega, np.ndarray):     #proceed if omega is a scalar or array
-        if np.isscalar(terrain_angle) or isinstance(terrain_angle,np.ndarray):  #check if terrain_angle is a scalar or array
+    if np.isscalar(omega) or isinstance(omega,np.ndarray):     #proceed if omega is a scalar or array
+        if np.isscalar(terrain_angle):  #check if terrain_angle is a scalar or array
             if terrain_angle < -75 or terrain_angle > 75:   #raise exception if terrain_angle is not between negative and positive 75
+                raise Exception('One of the values for the terrain angle is not between -75 and 75 degrees.')
+            F = F_drive(omega,rover) + F_gravity(terrain_angle, rover, planet) + F_rolling(omega, terrain_angle, rover, planet, Crr)    #calculate net force
+        if isinstance(omega, np.ndarray): #check if terrain_angle is ana array
+            if terrain_angle.any() < -75 or terrain_angle.any() > 75:   #raise exception if any value of terrain_angle is not between negative and positive 75
                 raise Exception('One of the values for the terrain angle is not between -75 and 75 degrees.')
             F = F_drive(omega,rover) + F_gravity(terrain_angle, rover, planet) + F_rolling(omega, terrain_angle, rover, planet, Crr)    #calculate net force
         else: raise Exception('The second argument is neither a scalar nor a vector.')
