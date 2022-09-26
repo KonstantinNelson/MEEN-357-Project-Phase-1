@@ -47,13 +47,13 @@ def get_mass(rover):        #define function get_mass that receives dict rover a
 
 def F_drive(omega,rover):       #define function F_drice that receives array or scalar omega and dict rover
     Fd=0
+    if not isinstance(rover, dict):
+        raise Exception('The second argument is not a dict.')
     if np.isscalar(omega) or isinstance(omega,np.ndarray): #test if omega is scalar or array
         tau_in = tau_dcmotor(omega,rover['wheel_assembly']['motor'])
         tau_out = tau_in*get_gear_ratio(rover['wheel_assembly']['speed_reducer'])
         Fd = 6*tau_out/rover['wheel_assembly']['wheel']['radius']       #calculate drive force
     else: raise Exception('The first argument is neither a scalar nor a vector.')   #raise exception if not array or scalar
-    if not isinstance(rover['wheel_assembly']['motor'], dict):
-        raise Exception('The second argument is not a dict.')
     return Fd   #return value of drive force
 
 def F_gravity(terrain_angle,rover,planet):      #define function F_gravity that receives scalar or array terrain_angle and rover and planet dicts
@@ -74,6 +74,8 @@ def F_gravity(terrain_angle,rover,planet):      #define function F_gravity that 
 def F_rolling(omega,terrain_angle,rover,planet,Crr):    #define function F_rolling that receives scalar or array omega and terrain_angle, rover and planet dict, and scalar Crr
     Frr=0
     Fn=0
+    if not isinstance(rover,dict) or if not isinstance(planet,dict):
+        raise Exception('Either the third or fourth argument is not a dict.')
     if np.isscalar(omega) or isinstance(omega,np.ndarray):
         if np.isscalar(terrain_angle): 
             if terrain_angle < -75 or terrain_angle > 75:
@@ -85,10 +87,6 @@ def F_rolling(omega,terrain_angle,rover,planet,Crr):    #define function F_rolli
             Fn = get_mass(rover)*planet['g']*np.cos(terrain_angle*np.pi/180)
         else: raise Exception('The second argument is neither a scalar nor a vector.') 
     else: raise Exception('The first argument is neither a scalar nor a vector.')
-    if not isinstance(rover,dict):
-        raise Exception('The third argument is not a dict.')
-    if not isinstance(planet,dict):
-        raise Exception('The fourth argument is not a dict.')
     if not np.isscalar(Crr) or isinstance(Crr, str):
         raise Exception('The fifth argument is not a scalar.')
     elif Crr <= 0:
