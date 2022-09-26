@@ -11,21 +11,11 @@ tau = tau_dcmotor(omega,rover['wheel_assembly']['motor'])
 motor = rover['wheel_assembly']['motor']
 P = -(motor['speed_noload']/motor['torque_stall'])*tau**2 + motor['speed_noload']*tau
 
-
-#still need to adjust graphs
-plt.subplot(3,1,1)
-plt.plot(tau,omega)
-plt.xlabel('Motor Shaft Torque (Nm)')
-plt.ylabel('Motor Shaft Speed (rad/s)')
-
-plt.subplot(3,1,2)
-plt.plot(tau,P)
-plt.xlabel('Motor Shaft Torque (Nm)')
-plt.ylabel('Motor Shaft Speed (rad/s)')
-
-plt.subplot(3,1,3)
-plt.plot(omega,P)
-plt.xlabel('Motor Shaft Speed (rad/s)')
-plt.ylabel('Motor Shaft Power (W)')
+f = plt.figure(figsize=(8,7))
+ax=f.add_subplot(311,xlabel='Motor Shaft Torque [Nm]',ylabel='Motor Shaft Speed [rad/s]')
+ax2=f.add_subplot(312,xlabel='Motor Shaft Torque [Nm]',ylabel='Motor Power [W]')
+ax3=f.add_subplot(313,xlabel='Motor Shaft Speed [rad/s]',ylabel='Motor Power [W]')
+ax.plot(tau,omega)
+ax2.plot(tau,P)
+ax3.plot(omega,P)
 plt.tight_layout()
-plt.show()
