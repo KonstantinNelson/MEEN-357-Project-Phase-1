@@ -52,8 +52,11 @@ def basic_bisection(fun, xl, xu, err_max=1e-5, iter_max=1000): #5 inputs
 
 
 rover, planet = define_rover_1()
-Crr = 0.2
-slope_list_deg = np.linspace(-10,35,25)
+slope = 0
+Crr_array = numpy.linspace(0.01,0.4,25)
+v_max = np.zeros(len(Crr_array), dtype = float)
+
+#old code below---------------------------------------------------------------------------------
 omega_max = np.zeros(len(slope_list_deg), dtype = float)
 omega_nl = rover['wheel_assembly']['motor']['speed_noload']
 
