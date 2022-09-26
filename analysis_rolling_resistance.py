@@ -13,7 +13,9 @@ v_max = np.zeros(len(Crr_array), dtype = float)
 
 
 
-
+for i in range(len(Crr_array)):
+    
+    
 
 plt.plot(Crr_array,v_max)
 plt.xlabel('Coeficient of rolling resistance [degrees]')
