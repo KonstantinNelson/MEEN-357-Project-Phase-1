@@ -2,10 +2,11 @@ import numpy as np
 from math import erf 
 from define_rover import *
 
+#call in define_rover_1 from define_rover file to get dictionaries
 rover, planet = define_rover_1()
 
-#works with test file
-def tau_dcmotor(omega,motor):  
+
+def tau_dcmotor(omega,motor):       #define function tau_dcmotor that receives scalar or array omega and motor dict
     tau=0                      
     if np.isscalar(omega):  #test if omega is scalar
         tau = motor['torque_stall'] - ((motor['torque_stall']       
@@ -44,7 +45,6 @@ def get_mass(rover):        #define function get_mass that receives dict rover a
     mass = rover['power_subsys']['mass'] + rover['science_payload']['mass'] + rover['chassis']['mass'] + wheel_assembly
     return mass     #return value of rover mass
 
-#this works with the test file
 def F_drive(omega,rover):       #define function F_drice that receives array or scalar omega and dict rover
     Fd=0
     if np.isscalar(omega) or isinstance(omega,np.ndarray): #test if omega is scalar or array
@@ -56,22 +56,19 @@ def F_drive(omega,rover):       #define function F_drice that receives array or 
         raise Exception('The second argument is not a dict.')
     return Fd   #return value of drive force
 
-#this works with the test file
-def F_gravity(terrain_angle,rover,planet):
+def F_gravity(terrain_angle,rover,planet):      #define function F_gravity that receives scalar or array terrain_angle and rover and planet dicts
     Fgt=0
-    if np.isscalar(terrain_angle): 
-        if terrain_angle < -75 or terrain_angle > 75:
+    if not isinstance(rover, dict) or not isinstance(planet, dict):     #check if rover and planet are not dict types
+            raise Exception('Either the second or third argument is not a dict.')
+    if np.isscalar(terrain_angle):  #test if terrain_angle is a scalar
+        if terrain_angle < -75 or terrain_angle > 75:       #check if angle value is not between positive and negative 75 degrees
             raise Exception('One of the values for the terrain angle is not between -75 and 75 degrees.')
-        Fgt = -1*get_mass(rover)*planet['g']*np.sin(terrain_angle*np.pi/180)
-    elif isinstance(terrain_angle,np.ndarray):
-        if (terrain_angle < -75).any() or (terrain_angle > 75).any():
+        Fgt = -1*get_mass(rover)*planet['g']*np.sin(terrain_angle*np.pi/180)    #calculate the value gravity force
+    elif isinstance(terrain_angle,np.ndarray):  #test if terrain_angle is an array
+        if (terrain_angle < -75).any() or (terrain_angle > 75).any():   #check if any value is not between positive and negative 75 degrees
             raise Exception('One of the values for the terrain angle is not between -75 and 75 degrees.')
-        Fgt = -1*get_mass(rover)*planet['g']*np.sin(terrain_angle*np.pi/180)
+        Fgt = -1*get_mass(rover)*planet['g']*np.sin(terrain_angle*np.pi/180) #calculate array of gravity force values
     else: raise Exception('The first argument is neither a scalar nor a vector.')
-    if not isinstance(rover, dict):
-        raise Exception('The second argument is not a dict.')
-    if not isinstance(planet, dict):
-        raise Exception('The third argument is not a dict.')
     return Fgt
 
 
