@@ -74,7 +74,7 @@ def F_gravity(terrain_angle,rover,planet):      #define function F_gravity that 
 def F_rolling(omega,terrain_angle,rover,planet,Crr):    #define function F_rolling that receives scalar or array omega and terrain_angle, rover and planet dict, and scalar Crr
     Frr=0
     Fn=0
-    if not isinstance(rover,dict) or if not isinstance(planet,dict):        #check if rover or planet are not dicts
+    if not isinstance(rover,dict) or not isinstance(planet,dict):        #check if rover or planet are not dicts
         raise Exception('Either the third or fourth argument is not a dict.')
     if np.isscalar(omega) or isinstance(omega,np.ndarray):      #check if omega is a scalar or array
         if np.isscalar(terrain_angle): #check if terrain_angle is a scalar
