@@ -34,10 +34,14 @@ for i in range(N):
             VMAX[i,j]=root*wheel_radius/gear_ratio #convert the value of omega to speed of the rover
         
 #3D graph of terrain angle and Crr vs maximum speed
-fig = plt.figure()
-ax = Axes3D(fig)
-ax.plot_surface(Crr, Slope, VMAX)
+
+
+# Plot the surface.
+fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+surf = ax.plot_surface(Crr, Slope, VMAX, cmap="coolwarm", antialiased=False)
+fig.colorbar(surf, shrink=0.5, aspect=5)# Add a color bar which maps values to colors.
 ax.set_title("Max Rover Speed:Varying Terrain angles and Rolling Resistances")
 ax.set_xlabel('Crr')
 ax.set_ylabel('Terrain Angle [deg]')
 ax.set_zlabel('Max Rover Speed [m/s]')
+plt.show()
