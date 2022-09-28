@@ -95,9 +95,9 @@ def F_rolling(omega,terrain_angle,rover,planet,Crr):    #define function F_rolli
     omega_out = omega/get_gear_ratio(rover['wheel_assembly']['speed_reducer'])  #calculate the value of the speed reducer omega output
     v_rover = omega_out*rover['wheel_assembly']['wheel']['radius']    #calculate the tangential velocity of the rover wheels
     if isinstance(omega,np.ndarray):
-        Frr=[0]
+        Frr=np.zeros(len(omega), dtype = float)
         for i in range(len(omega)):
-            Frr = erf(40*v_rover[i])*Frrs   #if the speed of the wheel is close to 0, the rolling resistance value should be 0
+            Frr[i] = erf(40*v_rover[i])*Frrs[i]  #if the speed of the wheel is close to 0, the rolling resistance value should be 0
     else: Frr = erf(40*v_rover)*Frrs  
     return Frr
 
